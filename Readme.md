@@ -1,6 +1,6 @@
 # ssGSEA2 FM
 
-**Note: this is a fork of the Broad's ssGSEA2.0 repo. This was made to fix the hard coded parallel processing, which is incompatible with job scheduling. **
+**Note: this is a fork of the Broad's ssGSEA2.0 repo. This was made to fix the hard coded parallel processing, which is incompatible with job scheduling.**
 
 
 
