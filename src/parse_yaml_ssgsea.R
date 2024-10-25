@@ -73,6 +73,6 @@ parse_param_ssgsea <- function(cmd_option_list, yaml_section='panoply_ssgsea'){
   opt$export_signat_gct <- as.logical(opt$export_signat_gct)
   opt$global_fdr <- as.logical(opt$global_fdr)
   opt$multi_core <- as.logical(opt$multi_core)
-  
+  opt$gene_set_databases <- unlist(strsplit(opt$gene_set_databases, ","))
   return(opt)
 } 

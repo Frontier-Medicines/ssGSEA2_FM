@@ -30,7 +30,8 @@ option_list <- list(
   make_option( c("-g", "--globalfdr"), action='store', type='character',  dest='global_fdr', help='If TRUE global FDR across all data columns is calculated.', default = FALSE),
   make_option( c("-l", "--lightspeed"), action='store', type='character',  dest='multi_core', help='If TRUE processing will be parallized across gene sets. (I ran out of single letters to define parameters...)', default = TRUE),
   make_option( c("-y", "--yaml"), action='store', type='character',  dest='yaml_file', help='Parameter file (.yaml)', default = NA),
-  make_option( c("-z", "--scrdir"), action='store', type='character',  dest='script.dir', help="Folder where 'ssgsea-cli.R' script is located.", default = '.')
+  make_option( c("-z", "--scrdir"), action='store', type='character',  dest='script.dir', help="Folder where 'ssgsea-cli.R' script is located.", default = '.'),
+  make_option(c("-u","--num_cores"), action='store', type = 'character', dest ='num_cores', help = "Number of cores to parallelize over", default = 4)
 )
 
 ## #####################################
@@ -45,7 +46,7 @@ source(file.path(script.dir, 'src', 'parse_yaml_ssgsea.R'))
 opt <- parse_param_ssgsea(option_list) # reparse args with our special yaml overwrite function
 
 # hard-coded parameters
-spare.cores <- 0 # use all available cpus
+#spare.cores <- 0 # use all available cpus
 log.file <- paste(opt$output_prefix, '_ssgsea.log.txt', sep='')
 
 
@@ -69,7 +70,7 @@ res <- tryCatch(ssGSEA2(
   extended.output=opt$extended_output,
   global.fdr=opt$global_fdr,
   par=opt$multi_core,
-  spare.cores=spare.cores,
+  num_cores=opt$num_cores,
   log.file=log.file
 ), error = function(e) {
   if (grepl("does not meet minimum-overlap", e) && # if we have a minimum-overlap error

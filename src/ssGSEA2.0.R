@@ -67,7 +67,7 @@ ssGSEA2 <- function (
                      global.fdr          = FALSE,   ## if TRUE calculate global FDR; else calculate FDR sample-by-sample
                      extended.output     = TRUE,    ## if TRUE the result GCT files will contain statistics about gene coverage etc.  
                      par=F,
-                     spare.cores=1,
+                     num_cores = 1,
                      export.signat.gct=T, ## if TRUE gct files with expression values for each signature will be generated
                      param.file=T,
                      log.file='run.log') {
@@ -774,9 +774,9 @@ ssGSEA2 <- function (
     ##
     if(par){
         ## register cores
-        cl <- parallel::makeCluster(detectCores() - spare.cores)
-        doParallel::registerDoParallel(cl)
-
+        #cl <- parallel::makeCluster(num_cores)
+        #doParallel::registerDoParallel(cl)
+	doParallel::registerDoParallel(cores=num_cores)
         ######################
         ## parallel loop
         tmp <-  foreach(gs.i = 1:N.gs,  .packages='doParallel') %dopar% {
@@ -798,7 +798,7 @@ ssGSEA2 <- function (
         OPAM
         }
 
-        on.exit(stopCluster(cl))
+        #on.exit(stopCluster(cl))
 
         names(tmp) <- gs.names
 
